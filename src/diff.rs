@@ -26,16 +26,37 @@ pub fn lcs(str1:&str, str2:&str) -> i32 {
     }
 }
 
+pub fn ses(str1:&str, str2:&str) {
+    let edits: Vec<(i32,char)> = Vec::new();
+
+    let list = ses_with_vec(str1, str2, edits);
+
+    for edit in list {
+        if edit.0 == 1 {
+            println!("{} {}", "-", edit.1);
+        } else if edit.0 == 2 {
+            println!("{} {}", "+", edit.1);
+        } else {
+            println!("{} {}", " ", edit.1);
+        }
+    }
+}
+
 pub fn ses_with_vec(str1:&str, str2:&str, mut edits: Vec<(i32,char)>) -> Vec<(i32,char)>{
     //println!("diff {} and {}", str1, str2);
 
     // if str1 == "" or str2 == "" return 0
     if str1.is_empty() {
+        for c in str2.chars() {
+            edits.push((2,c));
+        }
         return edits;
     }
 
     if str2.is_empty() {
-        edits.push((1,str1.chars().nth(0).unwrap()));
+        for c in str1.chars() {
+            edits.push((1,c));
+        }
         return edits;
     }
 
@@ -59,23 +80,6 @@ pub fn ses_with_vec(str1:&str, str2:&str, mut edits: Vec<(i32,char)>) -> Vec<(i3
         let editsb = edits.to_vec();
         let mut a = ses_with_vec(str1_next, str2, editsa);
         let mut b = ses_with_vec(str1, str2_next, editsb);
-        return if a > b {a.push((1,str1_vec[str1_len-1])); a} else {b.push((2,str2_vec[str2_len-1])); b};
+        return if a.len() < b.len() {a.push((1,str1_vec[str1_len-1])); a} else {b.push((2,str2_vec[str2_len-1])); b};
     }
 }
-
-pub fn ses(str1:&str, str2:&str) {
-    let edits: Vec<(i32,char)> = Vec::new();
-
-    let list = ses_with_vec(str1, str2, edits);
-
-    for edit in list {
-        if edit.0 == 1 {
-            println!("{} {}", "-", edit.1);
-        } else if edit.0 == 2 {
-            println!("{} {}", "+", edit.1);
-        } else {
-            println!("{} {}", " ", edit.1);
-        }
-    }
-}
-

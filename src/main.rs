@@ -2,7 +2,8 @@
 mod  diff;
 
 fn main() {
-    //print::run();
+
+    println!("ses:");
     println!("Longest Common Subsequence: {:?}",diff::lcs("azb","aab"));
     diff::ses("azb","aab");
     println!("Longest Common Subsequence: {:?}",diff::lcs("azb","azb"));
